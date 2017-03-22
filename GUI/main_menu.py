@@ -1,4 +1,4 @@
-from Tkinter import *
+from tk_objects import *
 
 def click_test():
     print "Click Success"
@@ -10,7 +10,7 @@ pad_val = 5
 
 root = Tk()
 root.title('Psychologist Database')
-root.geometry('175x300')
+root.geometry('300x500')
 
 title = Label(root)
 title['text'] = 'Psychologist Database'
