@@ -1,58 +1,34 @@
-from tk_objects import *
+from root_file import *
+from Functions.tk_objects import *
 
-def click_test():
-    print "Click Success"
+def b_test():
+    print "Button Success"
 
 def close_program():
     root.destroy()
 
+main_menu = Toplevel(root)
+main_menu.title('Main Menu')
+main_menu.geometry('300x500')
+
 pad_val = 5
 
-root = Tk()
-root.title('Psychologist Database')
-root.geometry('300x500')
+title = Text(main_menu, 'Psychologist Database')
 
-title = Label(root)
-title['text'] = 'Psychologist Database'
-# title.pack()
-
-start = Button(root)
-start['text'] = 'Start New Session'
-start['command'] = click_test
-# start.pack(pady=pad_val)
-
-appointment = Button(root)
-appointment['text'] = 'Appointment Calendar'
-appointment['command'] = click_test
-# appointment.pack(pady=pad_val)
-
-finance = Button(root)
-finance['text'] = 'Patient Finances'
-finance['command'] = click_test
-# finance.pack(pady=pad_val)
-
-manage = Button(root)
-manage['text'] = 'Manage Patients'
-manage['command'] = click_test
-# manage.pack(pady=pad_val)
-
-settings = Button(root)
-settings['text'] = 'Settings'
-settings['command'] = click_test
-# settings.pack(anchor=SW)
-
-exitButton = Button(root)
-exitButton['text'] = 'Exit'
-exitButton['command'] = close_program
-# exitButton.pack(anchor=SE)
+start = Btn(main_menu, 'Start New Session', b_test)
+appointment = Btn(main_menu, 'Appointment Calendar', b_test)
+finance = Btn(main_menu, 'Patient Finances', b_test)
+manage = Btn(main_menu, 'Manage Patients', b_test)
+settings = Btn(main_menu, 'Settings', b_test)
+exitButton = Btn(main_menu, 'Exit', close_program)
 
 def launch_main_menu():
-    title.pack()
-    start.pack(pady=pad_val)
-    appointment.pack(pady=pad_val)
-    finance.pack(pady=pad_val)
-    manage.pack(pady=pad_val)
-    settings.pack(anchor=SE, side=LEFT)
-    exitButton.pack(anchor=SW, side=RIGHT)
+    title.t.pack()
+    start.b.pack(pady=pad_val)
+    appointment.b.pack(pady=pad_val)
+    finance.b.pack(pady=pad_val)
+    manage.b.pack(pady=pad_val)
+    settings.b.pack(anchor=SE, side=LEFT)
+    exitButton.b.pack(anchor=SW, side=RIGHT)
     mainloop()
 
