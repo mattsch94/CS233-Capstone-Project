@@ -1,6 +1,6 @@
 from root_file import *
 from Functions.tk_objects import *
-from new_session_2 import launch_new_session
+from new_session import launch_new_session
 
 def b_test():
     print "Button Success"

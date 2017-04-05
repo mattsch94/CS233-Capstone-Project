@@ -28,6 +28,9 @@ class TxtBox:
     def get_text(self):
         return self.t.get()
 
+    def insert(self, text):
+        self.l.insert(0, text)
+
 class LargeTxtBox:
 
     def __init__(self, tk):
@@ -35,6 +38,7 @@ class LargeTxtBox:
 
     def get_text(self):
         return self.l.get()
+
 
 class List:
 
@@ -45,7 +49,11 @@ class List:
             self.l = Listbox(tk)
 
     def get_choice(self):
-        return self.l.curselection()
+        get = self.l.curselection()
+        if get:
+            return self.l.get(get)
+        else:
+            return FALSE
 
     def insert(self, string, item=END):
         self.l.insert(item, string)
@@ -55,5 +63,91 @@ class List:
 
     def delete_all(self):
         self.l.delete(END, 0)
+
+# Work in progress
+class Calendar:
+
+    def __init__(self, tk):
+        self.w1d1 = Frame(tk, width=100, height=100)
+        self.w1d2 = Frame(tk, width=100, height=100)
+        self.w1d3 = Frame(tk, width=100, height=100)
+        self.w1d4 = Frame(tk, width=100, height=100)
+        self.w1d5 = Frame(tk, width=100, height=100)
+        self.w1d6 = Frame(tk, width=100, height=100)
+        self.w1d7 = Frame(tk, width=100, height=100)
+
+        self.w2d1 = Frame(tk, width=100, height=100)
+        self.w2d2 = Frame(tk, width=100, height=100)
+        self.w2d3 = Frame(tk, width=100, height=100)
+        self.w2d4 = Frame(tk, width=100, height=100)
+        self.w2d5 = Frame(tk, width=100, height=100)
+        self.w2d6 = Frame(tk, width=100, height=100)
+        self.w2d7 = Frame(tk, width=100, height=100)
+
+        self.w3d1 = Frame(tk, width=100, height=100)
+        self.w3d2 = Frame(tk, width=100, height=100)
+        self.w3d3 = Frame(tk, width=100, height=100)
+        self.w3d4 = Frame(tk, width=100, height=100)
+        self.w3d5 = Frame(tk, width=100, height=100)
+        self.w3d6 = Frame(tk, width=100, height=100)
+        self.w3d7 = Frame(tk, width=100, height=100)
+
+        self.w4d1 = Frame(tk, width=100, height=100)
+        self.w4d2 = Frame(tk, width=100, height=100)
+        self.w4d3 = Frame(tk, width=100, height=100)
+        self.w4d4 = Frame(tk, width=100, height=100)
+        self.w4d5 = Frame(tk, width=100, height=100)
+        self.w4d6 = Frame(tk, width=100, height=100)
+        self.w4d7 = Frame(tk, width=100, height=100)
+
+        self.w5d1 = Frame(tk, width=100, height=100)
+        self.w5d2 = Frame(tk, width=100, height=100)
+        self.w5d3 = Frame(tk, width=100, height=100)
+        self.w5d4 = Frame(tk, width=100, height=100)
+        self.w5d5 = Frame(tk, width=100, height=100)
+        self.w5d6 = Frame(tk, width=100, height=100)
+        self.w5d7 = Frame(tk, width=100, height=100)
+
+    def grid(self, Row, Col):
+        self.w1d1.grid(row=Row, col=Col)
+        self.w1d2.grid(row=Row, col=Col+1)
+        self.w1d3.grid(row=Row, col=Col+2)
+        self.w1d4.grid(row=Row, col=Col+3)
+        self.w1d5.grid(row=Row, col=Col+4)
+        self.w1d6.grid(row=Row, col=Col+5)
+        self.w1d7.grid(row=Row, col=Col+6)
+
+        self.w2d1.grid(row=Row+1, col=Col)
+        self.w2d2.grid(row=Row+1, col=Col+1)
+        self.w2d3.grid(row=Row+1, col=Col+2)
+        self.w2d4.grid(row=Row+1, col=Col+3)
+        self.w2d5.grid(row=Row+1, col=Col+4)
+        self.w2d6.grid(row=Row+1, col=Col+5)
+        self.w2d7.grid(row=Row+1, col=Col+6)
+
+        self.w3d1.grid(row=Row+2, col=Col)
+        self.w3d2.grid(row=Row+2, col=Col+1)
+        self.w3d3.grid(row=Row+2, col=Col+2)
+        self.w3d4.grid(row=Row+2, col=Col+3)
+        self.w3d5.grid(row=Row+2, col=Col+4)
+        self.w3d6.grid(row=Row+2, col=Col+5)
+        self.w3d7.grid(row=Row+2, col=Col+6)
+
+        self.w4d1.grid(row=Row+3, col=Col)
+        self.w4d2.grid(row=Row+3, col=Col+1)
+        self.w4d3.grid(row=Row+3, col=Col+2)
+        self.w4d4.grid(row=Row+3, col=Col+3)
+        self.w4d5.grid(row=Row+3, col=Col+4)
+        self.w4d6.grid(row=Row+3, col=Col+5)
+        self.w4d7.grid(row=Row+3, col=Col+6)
+
+        self.w5d1.grid(row=Row+4, col=Col)
+        self.w5d2.grid(row=Row+4, col=Col+1)
+        self.w5d3.grid(row=Row+4, col=Col+2)
+        self.w5d4.grid(row=Row+4, col=Col+3)
+        self.w5d5.grid(row=Row+4, col=Col+4)
+        self.w5d6.grid(row=Row+4, col=Col+5)
+        self.w5d7.grid(row=Row+4, col=Col+6)
+
 
 
