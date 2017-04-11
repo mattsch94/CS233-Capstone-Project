@@ -18,6 +18,9 @@ class New_Session:
         # ENSURE TO UTILIZE METHODS FOR RESETTING THE LIST UPON UPDATE.
         # DUMMY NAMES ARE CURRENTLY INSERTED TO TEST FUNCTIONALITY.
 
+        connection = sqlite3.connect(db_address)
+        cursor = connection.execute("SELECT ")
+
         # START DUMMY NAME CODE
         self.dummy_list = ['John Doe', 'Jane Doe', 'Ryan Baxter', 'Sarah Young', 'Miles Davis',
                            'Eddie Reyes', 'George West', 'Katherine White', 'Peggy Morris',

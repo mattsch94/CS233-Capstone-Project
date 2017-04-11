@@ -1,4 +1,5 @@
 import string
+from GUI.root_file import *
 
 def split_string_by_100_char(stg):
 
@@ -15,3 +16,7 @@ def split_string_by_100_char(stg):
             cur_len += 100
 
     return split_list
+
+def debug_print(variable):
+    if debug:
+        print variable
