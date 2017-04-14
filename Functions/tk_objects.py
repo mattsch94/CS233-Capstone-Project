@@ -29,7 +29,7 @@ class TxtBox:
         return self.t.get()
 
     def insert(self, text):
-        self.l.insert(0, text)
+        self.t.insert(0, text)
 
 class LargeTxtBox:
 
@@ -37,7 +37,7 @@ class LargeTxtBox:
         self.l = Text(tk)
 
     def get_text(self):
-        return self.l.get()
+        return self.l.get("1.0", "end-1c")
 
 
 class List:
@@ -62,7 +62,7 @@ class List:
         self.l.delete(start, end)
 
     def delete_all(self):
-        self.l.delete(END, 0)
+        self.l.delete(0, END)
 
 # Work in progress
 class Calendar:
