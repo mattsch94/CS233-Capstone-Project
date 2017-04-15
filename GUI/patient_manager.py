@@ -4,12 +4,12 @@ from tkinter.messagebox import *
 from Functions.db_functions import *
 import string
 
-class Pat_Manager:
+class Pat_Manager:  # Parent class, manages the main window.
 
     def __init__(self):
         self.manager = Toplevel(root)
         self.manager.title('Patient Manager')
-        self.manager.geometry("400x350")
+        self.manager.geometry("400x370")
 
         self.ins1 = Lbl(self.manager, 'Select a patient and then a command. Or select Add Patient.')
 
@@ -21,9 +21,10 @@ class Pat_Manager:
 
         self.new = Btn(self.manager, 'New Patient', self.new_patient)
         self.edit = Btn(self.manager, 'Edit Patient', self.edit_patient)
-        self.notes = Btn(self.manager, 'View Notes', NONE)
-        self.delete = Btn(self.manager, 'Delete Patient', NONE)
+        self.notes = Btn(self.manager, 'View Notes', self.note_window)
+        self.delete = Btn(self.manager, 'Delete Patient', self.del_patient)
         self.refresh = Btn(self.manager, 'Refresh List', self.update_list)
+        self.close = Btn(self.manager, 'Close', self.manager.destroy)
 
     def update_list(self):
         self.name_list = []
@@ -51,6 +52,30 @@ class Pat_Manager:
         else:
             showerror('Error', 'Please select a patient to continue.')
 
+    def del_patient(self):
+        if self.pat_list.get_choice():
+            full_name = self.pat_list.get_choice()
+            id_num = self.master_list.id(full_name)
+
+            connection = sqlite3.connect(db_address)
+            sql_cmd_1 = "SELECT SUM(charge) FROM finance WHERE patient_id=" + str(id_num) + ";"
+            table_list = ['calendar', 'finance', 'notes', 'patients']
+            cursor = connection.execute(sql_cmd_1).fetchone()
+            message_1 = ("Are you sure you want to delete all records of " + str(full_name) +
+                         " from the database? This action cannot be undone.")
+            print cursor[0]
+            if cursor[0] == 0 or cursor[0] == None:
+                if askyesno('Confirm', message_1):
+                    for table in table_list:
+                        sql_cmd_2 = "DELETE FROM " + table + " WHERE patient_id=" + str(id_num) + ";"
+                        connection.execute(sql_cmd_2)
+                        connection.commit()
+            else:
+                showerror('Error', "Please settle the patient's finances before deleting their records.")
+
+        else:
+            showerror('Error', 'Please select a patient to continue.')
+
     def launch(self):
         self.ins1.l.grid(row=0, column=0)
         self.pat_list.l.grid(row=1, column=0)
@@ -59,8 +84,27 @@ class Pat_Manager:
         self.notes.b.grid(row=4, column=0)
         self.delete.b.grid(row=5, column=0)
         self.refresh.b.grid(row=6, column=0)
+        self.close.b.grid(row=7, column=0)
 
-class Editor:
+    def note_window(self):
+        if self.pat_list.get_choice():
+            full_name = self.pat_list.get_choice()
+            id_num = self.master_list.id(full_name)
+
+            connection = sqlite3.connect(db_address)
+            sql_cmd = 'SELECT date FROM notes WHERE patient_id=' + str(id_num)
+            cursor = connection.execute(sql_cmd).fetchall()
+
+            if cursor == []:
+                showerror('Error', 'This patient does not have any session notes saved.')
+            else:
+                note = Note_Viewer(id_num)
+                note.launch()
+            connection.close()
+        else:
+            showerror('Error', 'Please select a patient to continue.')
+
+class Editor:  # Sub-class, manages editor windows for new and existing patients.
 
     def __init__(self, id_num=NONE, fname=NONE, lname=NONE, bday=NONE, address=NONE, phone=NONE):
         self.edit = Toplevel(root)
@@ -146,6 +190,7 @@ class Editor:
         return match_id
 
     def submit(self):
+
         if self.id_num == NONE:
             self.id_num = self.empty_id()
 
@@ -156,11 +201,96 @@ class Editor:
         person.address = self.addressB.get_text()
         person.phone = self.phoneB.get_text()
 
+        if person.fname == "":
+            showerror('Incomplete', 'Please fill in a first name.')
+            return
+        if person.lname == "":
+            showerror('Incomplete', 'Please fill in a last name.')
+            return
+        if person.bday == "" or len(person.bday) != 10:
+            showerror('Incomplete', 'Please fill in a valid birthday.')
+            return
+        if person.address == "":
+            showerror('Incomplete', 'Please fill in a valid address.')
+            return
+        if person.phone == "" or len(person.phone) != 10 or str(person.phone).isdigit() == FALSE:
+            showerror('Incomplete', 'Please fill in a valid phone number.')
+            return
+
         person.update()
 
         showinfo("Success", "Patient information updated successfully.")
 
         self.edit.destroy()
+
+class Note_Viewer:  # Sub-class responsible for allowing notes to be viewed.
+
+    def __init__(self, patient_id):
+
+        self.note_view = Toplevel(root)
+        self.note_view.title('View Session Notes')
+        self.note_view.geometry('600x620')
+
+        self.session_list = List(self.note_view)
+        self.session_note = LargeTxtBox(self.note_view)
+        self.session_note.disable()
+
+        self.view_note = Btn(self.note_view, "View Note", self.display_note)
+        self.close = Btn(self.note_view, "Close Window", self.close_window)
+
+        self.ins = Lbl(self.note_view, 'Select a session date/time to view notes.')
+
+        self.pat_id = patient_id
+
+        self.connection = sqlite3.connect(db_address)
+
+        sql_cmd_1 = "SELECT date FROM notes WHERE patient_id=" + str(self.pat_id)
+        sql_cmd_2 = "SELECT time FROM notes WHERE patient_id=" + str(self.pat_id)
+        cursor_d = self.connection.execute(sql_cmd_1).fetchall()
+        cursor_t = self.connection.execute(sql_cmd_2).fetchall()
+
+        unit_max = len(cursor_d)
+        unit = 0
+        while unit < unit_max:
+            date = date_convert(db=cursor_d[unit][0])
+            time = time_convert(db=cursor_t[unit][0])
+            display = date + " " + time
+            self.session_list.insert(display)
+            unit += 1
+
+    def __del__(self):
+        self.connection.close()
+
+    def launch(self):
+
+        self.ins.l.grid(row=0, column=0)
+        self.session_list.l.grid(row=1, column=0)
+        self.view_note.b.grid(row=2, column=0)
+        self.session_note.l.grid(row=3, column=0)
+        self.close.b.grid(row=4, column=0)
+
+    def display_note(self):
+
+        if self.session_list.get_choice():
+            session = str(self.session_list.get_choice())
+            pieces = session.split()
+            date = date_convert(proper=pieces[0])
+            time = time_convert(proper=pieces[1])
+
+            sql_cmd = "SELECT notes FROM notes WHERE date='" + str(date) + "' AND time='" + str(time) + "';"
+            cursor = self.connection.execute(sql_cmd).fetchone()
+
+            self.session_note.enable()
+            self.session_note.clear()
+            self.session_note.insert(cursor[0])
+            self.session_note.disable()
+
+        else:
+            showerror('Error', 'Please select a session to view notes.')
+
+    def close_window(self):
+        self.connection.close()
+        self.note_view.destroy()
 
 def launch_manager():
     window = Pat_Manager()

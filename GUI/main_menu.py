@@ -2,6 +2,7 @@ from root_file import *
 from Functions.tk_objects import *
 from new_session import launch_new_session
 from patient_manager import launch_manager
+from Functions.db_functions import *
 
 def b_test():
     print "Button Success"
@@ -11,7 +12,7 @@ def close_program():
 
 main_menu = Toplevel(root)
 main_menu.title('Main Menu')
-main_menu.geometry('300x500')
+main_menu.geometry('300x200')
 
 pad_val = 5
 

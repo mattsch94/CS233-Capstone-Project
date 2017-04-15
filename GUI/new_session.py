@@ -9,7 +9,7 @@ class New_Session:
     def __init__(self):
         self.new_session = Toplevel(root)
         self.new_session.title('New Patient Session')
-        self.new_session.geometry('600x600')
+        self.new_session.geometry('500x250')
 
         self.ins1 = Lbl(self.new_session, 'Select patient and click next.')
         self.ins2 = Lbl(self.new_session, 'To add a new patient, go back and open Patient Manager.')
@@ -20,7 +20,7 @@ class New_Session:
         for patient in self.master_list.pList:
             self.pat_list.insert(patient.full_name())
 
-        self.back = Btn(self.new_session, 'Back', self.back_btn_a)
+        self.back = Btn(self.new_session, 'Close', self.back_btn_a)
         self.nxt = Btn(self.new_session, 'Next', self.next_btn)
 
     def next_btn(self):
@@ -35,8 +35,11 @@ class New_Session:
     def back_btn_a(self):
         self.new_session.destroy()
 
-    def back_btn_b(self):
-        if askyesno('Confirm', 'Are you sure you want to cancel?'):
+    def back_btn_b(self, ask=TRUE):
+        if ask:
+            if askyesno('Confirm', 'Are you sure you want to cancel?'):
+                self.note_session.destroy()
+        else:
             self.note_session.destroy()
 
     def submit_btn(self):
@@ -48,6 +51,10 @@ class New_Session:
             year = i.year
             month = i.month
             day = i.day
+            hh = i.hour
+            mm = i.minute
+            ss = i.second
+
 
             year_s = str(year)
 
@@ -63,15 +70,38 @@ class New_Session:
 
             y_m_d = year_s + month_s + day_s
 
+            if hh == 0:
+                hour_s = '00'
+            elif hh < 10:
+                hour_s = '0' + str(hh)
+            else:
+                hour_s = str(hh)
+
+            if mm == 0:
+                min_s = '00'
+            elif mm < 10:
+                min_s = '0' + str(mm)
+            else:
+                min_s = str(mm)
+
+            if ss == 0:
+                sec_s = '00'
+            elif ss < 10:
+                sec_s = '0' + str(ss)
+            else:
+                sec_s = str(ss)
+
+            h_m_s = hour_s + min_s + sec_s
+
             connection = sqlite3.connect(db_address)
-            sql_stmt = ('INSERT INTO notes VALUES (' + str(pat_id) + ', ' + str(y_m_d) + ', "' + str(notes)
-                        + '");')
+            sql_stmt = ('INSERT INTO notes VALUES (' + str(pat_id) + ', "' + str(y_m_d) + '", "' + str(h_m_s)
+                        + '", "' + str(notes) + '");')
             connection.execute(sql_stmt)
             connection.commit()
 
             showinfo('Saved', 'Session notes were successfully saved.')
 
-            self.back_btn_b()
+            self.back_btn_b(FALSE)
 
 
     def launch_window_one(self):
@@ -101,6 +131,12 @@ class New_Session:
         self.sbmt.b.grid(row=3, column=2)
 
 def launch_new_session():
-    window = New_Session()
-    window.launch_window_one()
-    mainloop()
+    connection = sqlite3.connect(db_address)
+    sql_cmd = 'SELECT patient_id FROM patients;'
+    cursor = connection.execute(sql_cmd).fetchall()
+    if cursor == []:
+        showerror('Error', 'There must be at least one patient in the database to start a new session.')
+    else:
+        window = New_Session()
+        window.launch_window_one()
+        mainloop()

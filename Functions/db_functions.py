@@ -1,5 +1,6 @@
 import sqlite3
 from GUI.root_file import *
+import operator
 
 class Patient:
 
@@ -97,7 +98,38 @@ def max_patient_id():
     cursor = connection.execute(sql_stmt).fetchone()
     obtain = cursor
     connection.close()
-    return obtain[0]
+    if obtain[0] == None:
+        return 0
+    else:
+        return obtain[0]
+
+def date_convert(proper=NONE, db=NONE):
+    if proper is not NONE and db is NONE:
+        mm = str(proper[0:2])
+        dd = str(proper[3:5])
+        yyyy = str(proper[6:10])
+        final = yyyy + mm + dd
+        return final
+    if proper is NONE and db is not NONE:
+        yyyy = str(db[0:4])
+        mm = str(db[4:6])
+        dd = str(db[6:8])
+        final = mm + '/' + dd + '/' + yyyy
+        return final
+
+def time_convert(proper=NONE, db=NONE):
+    if proper is not NONE and db is NONE:
+        hh = str(proper[0:2])
+        mm = str(proper[3:5])
+        ss = str(proper[6:8])
+        final = hh + mm + ss
+        return final
+    if proper is NONE and db is not NONE:
+        hh = str(db[0:2])
+        mm = str(db[2:4])
+        ss = str(db[4:6])
+        final = hh + ':' + mm + ':' + ss
+        return final
 
 '''
 p = Patient_List()

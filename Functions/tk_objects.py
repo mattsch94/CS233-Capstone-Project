@@ -34,10 +34,22 @@ class TxtBox:
 class LargeTxtBox:
 
     def __init__(self, tk):
-        self.l = Text(tk)
+        self.l = Text(tk, wrap=WORD)
 
     def get_text(self):
         return self.l.get("1.0", "end-1c")
+
+    def enable(self):
+        self.l.configure(state="normal")
+
+    def disable(self):
+        self.l.configure(state="disabled")
+
+    def insert(self, text):
+        self.l.insert('1.0', text)
+
+    def clear(self):
+        self.l.delete('1.0', 'end')
 
 
 class List:
