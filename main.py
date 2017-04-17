@@ -1,4 +1,7 @@
-from GUI.main_menu import launch_main_menu
+import GUI.users
+import GUI.root_file
+# GUI.main_menu.launch_main_menu(FALSE)
+GUI.users.start_program()
 
-launch_main_menu()
+
 

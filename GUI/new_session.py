@@ -9,7 +9,7 @@ class New_Session:
     def __init__(self):
         self.new_session = Toplevel(root)
         self.new_session.title('New Patient Session')
-        self.new_session.geometry('500x250')
+        # self.new_session.geometry('500x250')
 
         self.ins1 = Lbl(self.new_session, 'Select patient and click next.')
         self.ins2 = Lbl(self.new_session, 'To add a new patient, go back and open Patient Manager.')

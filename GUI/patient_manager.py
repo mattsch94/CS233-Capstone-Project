@@ -6,10 +6,12 @@ import string
 
 class Pat_Manager:  # Parent class, manages the main window.
 
-    def __init__(self):
+    def __init__(self, admin):
         self.manager = Toplevel(root)
         self.manager.title('Patient Manager')
-        self.manager.geometry("400x370")
+        # self.manager.geometry("400x370")
+
+        self.is_user_admin = admin
 
         self.ins1 = Lbl(self.manager, 'Select a patient and then a command. Or select Add Patient.')
 
@@ -17,7 +19,6 @@ class Pat_Manager:  # Parent class, manages the main window.
 
         self.name_list = []
         self.master_list = Patient_List()
-        self.update_list()
 
         self.new = Btn(self.manager, 'New Patient', self.new_patient)
         self.edit = Btn(self.manager, 'Edit Patient', self.edit_patient)
@@ -26,6 +27,8 @@ class Pat_Manager:  # Parent class, manages the main window.
         self.refresh = Btn(self.manager, 'Refresh List', self.update_list)
         self.close = Btn(self.manager, 'Close', self.manager.destroy)
 
+        self.update_list()
+
     def update_list(self):
         self.name_list = []
         del self.master_list
@@ -33,10 +36,22 @@ class Pat_Manager:  # Parent class, manages the main window.
         self.pat_list.delete_all()
         for patient in self.master_list.pList:
             self.pat_list.insert(patient.full_name())
+        self.new.state(TRUE)
+        self.edit.state(TRUE)
+        if self.is_user_admin:
+            self.notes.state(TRUE)
+            self.delete.state(TRUE)
+
+    def disable_until_refresh(self):
+        self.new.state(FALSE)
+        self.edit.state(FALSE)
+        self.notes.state(FALSE)
+        self.delete.state(FALSE)
 
     def new_patient(self):
         launcher = Editor()
         launcher.launch_blank()
+        self.disable_until_refresh()
 
     def edit_patient(self):
         if self.pat_list.get_choice():
@@ -49,6 +64,7 @@ class Pat_Manager:  # Parent class, manages the main window.
 
             launcher = Editor(cursor[0], cursor[1], cursor[2], cursor[3], cursor[4], cursor[5])
             launcher.launch_edit()
+            self.disable_until_refresh()
         else:
             showerror('Error', 'Please select a patient to continue.')
 
@@ -70,6 +86,7 @@ class Pat_Manager:  # Parent class, manages the main window.
                         sql_cmd_2 = "DELETE FROM " + table + " WHERE patient_id=" + str(id_num) + ";"
                         connection.execute(sql_cmd_2)
                         connection.commit()
+                    self.disable_until_refresh()
             else:
                 showerror('Error', "Please settle the patient's finances before deleting their records.")
 
@@ -85,6 +102,13 @@ class Pat_Manager:  # Parent class, manages the main window.
         self.delete.b.grid(row=5, column=0)
         self.refresh.b.grid(row=6, column=0)
         self.close.b.grid(row=7, column=0)
+
+        if self.is_user_admin:
+            self.notes.state(TRUE)
+            self.delete.state(TRUE)
+        else:
+            self.notes.state(FALSE)
+            self.delete.state(FALSE)
 
     def note_window(self):
         if self.pat_list.get_choice():
@@ -109,7 +133,7 @@ class Editor:  # Sub-class, manages editor windows for new and existing patients
     def __init__(self, id_num=NONE, fname=NONE, lname=NONE, bday=NONE, address=NONE, phone=NONE):
         self.edit = Toplevel(root)
         self.edit.title('Patient Editor')
-        self.edit.geometry('600x300')
+        # self.edit.geometry('600x300')
 
         self.insA = Lbl(self.edit, 'Add/Update patient details and then click submit.')
         self.insB = Lbl(self.edit, 'All fields are required.')
@@ -229,7 +253,7 @@ class Note_Viewer:  # Sub-class responsible for allowing notes to be viewed.
 
         self.note_view = Toplevel(root)
         self.note_view.title('View Session Notes')
-        self.note_view.geometry('600x620')
+        # self.note_view.geometry('600x620')
 
         self.session_list = List(self.note_view)
         self.session_note = LargeTxtBox(self.note_view)
@@ -292,8 +316,8 @@ class Note_Viewer:  # Sub-class responsible for allowing notes to be viewed.
         self.connection.close()
         self.note_view.destroy()
 
-def launch_manager():
-    window = Pat_Manager()
+def launch_manager(admin):
+    window = Pat_Manager(admin)
     window.launch()
 
 

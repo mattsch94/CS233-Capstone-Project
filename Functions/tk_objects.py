@@ -1,10 +1,12 @@
 from tkinter import *
-from Functions.std_functions import *
 
 class Lbl:
 
     def __init__(self, tk, string):
         self.l = Label(tk)
+        self.l['text'] = string
+
+    def text(self, string):
         self.l['text'] = string
 
 class Btn:
@@ -16,9 +18,15 @@ class Btn:
 
     def state(self, yn):
         if yn == FALSE:
-            self.b['state'] = DISABLED
+            self.b.config(state=DISABLED)
         else:
-            self.b['state'] = NORMAL
+            self.b.config(state=NORMAL)
+
+    def command(self, cmd):
+        self.b.config(command=cmd)
+
+    def color(self, color):
+        self.b.config(activeforeground=color)
 
 class TxtBox:
 
@@ -30,6 +38,18 @@ class TxtBox:
 
     def insert(self, text):
         self.t.insert(0, text)
+
+    def password(self, hide):
+        if hide:
+            self.t.config(show='*')
+        else:
+            self.t.config(show='')
+
+    def enable(self):
+        self.t.config(state="normal")
+
+    def disable(self):
+        self.t.config(state="disabled")
 
 class LargeTxtBox:
 
