@@ -1,8 +1,9 @@
 import sqlite3
 from GUI.root_file import *
 import operator
+import datetime
 
-class Patient:
+class Patient:  # Datatype used to store patient information.
 
     def __init__(self, id_number):
         self.connection = sqlite3.connect(db_address)
@@ -50,25 +51,31 @@ class Patient:
 
     def full_name(self, full=NONE):
         if full == NONE:
-            return str(self.fname) + " " + str(self.lname)
+            # return str(self.fname) + " " + str(self.lname) # First Last
+            return str(self.lname) + ', ' + str(self.fname)  # Last, First
         else:
             parts = full.split()
-            self.fname = str(parts[0])
-            self.lname = str(parts[1])
+            self.fname = str(parts[1])
+            self.lname = str(parts[0])[0:'end-1']
 
-class Patient_List:
+class Patient_List:  # Object that holds multiple patients.
 
     def __init__(self):
-        max_id = max_patient_id()
-        cur_id = 1
+
+        connection = sqlite3.connect(db_address)
+        sql_cmd = 'SELECT patient_id FROM patients ORDER BY lname;'
+        cursor = connection.execute(sql_cmd).fetchall()
+        id_list = []
         self.pList = []
 
-        while cur_id < max_id+1:
+        for item in cursor:
+            id_list.append(item[0])
+
+        for cur_id in id_list:
             if self.confirm_id(cur_id):
                 patient = Patient(cur_id)
                 if patient.new == FALSE:
                     self.pList.append(patient)
-            cur_id += 1
 
     def name(self, patient_id):
         for patient in self.pList:
@@ -92,7 +99,7 @@ class Patient_List:
         if obtain == []: return FALSE
         else: return TRUE
 
-def max_patient_id():
+def max_patient_id():  # Determines what the largest patient ID is.
     connection = sqlite3.connect(db_address)
     sql_stmt = "SELECT MAX(patient_id) FROM patients;"
     cursor = connection.execute(sql_stmt).fetchone()
@@ -103,7 +110,7 @@ def max_patient_id():
     else:
         return obtain[0]
 
-def date_convert(proper=NONE, db=NONE):
+def date_convert(proper=NONE, db=NONE):  # Converts dates from proper convention to db-integer convention.
     if proper is not NONE and db is NONE:
         mm = str(proper[0:2])
         dd = str(proper[3:5])
@@ -117,7 +124,7 @@ def date_convert(proper=NONE, db=NONE):
         final = mm + '/' + dd + '/' + yyyy
         return final
 
-def time_convert(proper=NONE, db=NONE):
+def time_convert(proper=NONE, db=NONE):  # Converts time from proper convention to db-integer convention.
     if proper is not NONE and db is NONE:
         hh = str(proper[0:2])
         mm = str(proper[3:5])
@@ -131,8 +138,54 @@ def time_convert(proper=NONE, db=NONE):
         final = hh + ':' + mm + ':' + ss
         return final
 
-'''
-p = Patient_List()
-print p.name(4)
-print p.id(p.name(4))
-'''
+class Time_Stamp:
+
+    def __init__(self):
+
+        i = datetime.datetime.now()
+        year = i.year
+        month = i.month
+        day = i.day
+        hh = i.hour
+        mm = i.minute
+        ss = i.second
+
+        year_s = str(year)
+
+        if month < 10:
+            month_s = '0' + str(month)
+        else:
+            month_s = str(month)
+
+        if day < 10:
+            day_s = '0' + str(day)
+        else:
+            day_s = str(day)
+
+        self.y_m_d = year_s + month_s + day_s
+
+        if hh == 0:
+            hour_s = '00'
+        elif hh < 10:
+            hour_s = '0' + str(hh)
+        else:
+            hour_s = str(hh)
+
+        if mm == 0:
+            min_s = '00'
+        elif mm < 10:
+            min_s = '0' + str(mm)
+        else:
+            min_s = str(mm)
+
+        if ss == 0:
+            sec_s = '00'
+        elif ss < 10:
+            sec_s = '0' + str(ss)
+        else:
+            sec_s = str(ss)
+
+        self.h_m_s = hour_s + min_s + sec_s
+
+    def reset(self):
+        self.__init__()

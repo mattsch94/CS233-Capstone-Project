@@ -3,7 +3,7 @@ from tkinter.messagebox import *
 from Functions.db_functions import *
 from main_menu import launch_main_menu
 
-class Log_In_Window:
+class Log_In_Window:  # Manages the log-in window that grants access to the rest of the program.
 
     def __init__(self):
 
@@ -25,6 +25,10 @@ class Log_In_Window:
         self.admin_verify = FALSE
 
     def launch(self):
+
+        # The two lines below should be removed upon program completion.
+        self.user_entry.insert('358679')
+        self.password_entry.insert('laptop@10309')
 
         self.user_text.l.grid(row=0, column=0, pady=self.pad)
         self.user_entry.t.grid(row=0, column=1, pady=self.pad)
@@ -84,12 +88,12 @@ class Log_In_Window:
             self.login_error()
             return
 
-def start_program():
+def start_program():  # Launches the log-in window.
 
     start = Log_In_Window()
     start.launch()
 
-class User_Manager_Admin:
+class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
 
     def __init__(self, user_id):
 
@@ -179,7 +183,7 @@ class User_Manager_Admin:
         self.edit.state(FALSE)
         self.delete.state(FALSE)
 
-def User_Manager_Std(user):
+def User_Manager_Std(user):  # Allows non-admin users to change their password.
     connection = sqlite3.connect(db_address)
     sql_cmd = 'SELECT password FROM users WHERE user_id=' + str(user) + ';'
     pw = connection.execute(sql_cmd).fetchone()[0]
@@ -188,7 +192,7 @@ def User_Manager_Std(user):
 
     connection.close()
 
-class User:
+class User:  # Manages the editor window used to create/change user information.
 
     def __init__(self, user=None, pw=None, acct=None, curr_admin=True):
 

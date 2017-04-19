@@ -3,6 +3,7 @@ from Functions.tk_objects import *
 from new_session import launch_new_session
 from patient_manager import launch_manager
 from Functions.db_functions import *
+from finance import Finance_Manager
 import users
 
 class Main_Menu:
@@ -21,7 +22,7 @@ class Main_Menu:
 
         self.start = Btn(self.main_menu, 'Start New Session', launch_new_session)
         self.appointment = Btn(self.main_menu, 'Appointment Calendar', self.b_test)
-        self.finance = Btn(self.main_menu, 'Patient Finance', self.b_test)
+        self.finance = Btn(self.main_menu, 'Patient Finance', self.launch_finance)
         self.manage = Btn(self.main_menu, 'Patient Manager', self.launch_manage)
         self.users = Btn(self.main_menu, 'User Admin', None)
         self.logout = Btn(self.main_menu, 'Log Out', self.logout)
@@ -46,6 +47,9 @@ class Main_Menu:
 
     def launch_std_user_mgr(self):
         users.User_Manager_Std(self.user_id)
+
+    def launch_finance(self):
+        Finance_Manager()
 
     def launch(self):
         self.title.l.grid(row=0, column=1, columnspan=1, pady=self.pad_val)

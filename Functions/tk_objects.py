@@ -51,6 +51,9 @@ class TxtBox:
     def disable(self):
         self.t.config(state="disabled")
 
+    def clear(self):
+        self.t.delete(0, 'end')
+
 class LargeTxtBox:
 
     def __init__(self, tk):

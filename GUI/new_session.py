@@ -2,7 +2,6 @@ from root_file import *
 from Functions.tk_objects import *
 from tkinter.messagebox import *
 from Functions.db_functions import *
-import datetime
 
 class New_Session:
     
@@ -44,57 +43,14 @@ class New_Session:
 
     def submit_btn(self):
 
-        if askyesno('Confirm', 'Are you sure you want to submit? Notes cannot be edited after being submitted.'):
+        if askyesno('Confirm', 'Are you sure you want to save? Notes cannot be edited after being saved.'):
             notes = self.notes.get_text()
             pat_id = self.master_list.id(str(self.name))
-            i = datetime.datetime.now()
-            year = i.year
-            month = i.month
-            day = i.day
-            hh = i.hour
-            mm = i.minute
-            ss = i.second
 
-
-            year_s = str(year)
-
-            if month < 10:
-                month_s = '0' + str(month)
-            else:
-                month_s = str(month)
-
-            if day < 10:
-                day_s = '0' + str(day)
-            else:
-                day_s = str(day)
-
-            y_m_d = year_s + month_s + day_s
-
-            if hh == 0:
-                hour_s = '00'
-            elif hh < 10:
-                hour_s = '0' + str(hh)
-            else:
-                hour_s = str(hh)
-
-            if mm == 0:
-                min_s = '00'
-            elif mm < 10:
-                min_s = '0' + str(mm)
-            else:
-                min_s = str(mm)
-
-            if ss == 0:
-                sec_s = '00'
-            elif ss < 10:
-                sec_s = '0' + str(ss)
-            else:
-                sec_s = str(ss)
-
-            h_m_s = hour_s + min_s + sec_s
+            time = Time_Stamp()
 
             connection = sqlite3.connect(db_address)
-            sql_stmt = ('INSERT INTO notes VALUES (' + str(pat_id) + ', "' + str(y_m_d) + '", "' + str(h_m_s)
+            sql_stmt = ('INSERT INTO notes VALUES (' + str(pat_id) + ', "' + str(time.y_m_d) + '", "' + str(time.h_m_s)
                         + '", "' + str(notes) + '");')
             connection.execute(sql_stmt)
             connection.commit()
@@ -121,7 +77,7 @@ class New_Session:
         self.notes = LargeTxtBox(self.note_session)
 
         self.cncl = Btn(self.note_session, 'Cancel', self.back_btn_b)
-        self.sbmt = Btn(self.note_session, 'Submit', self.submit_btn)  # Create "submit" fxn when database is set up.
+        self.sbmt = Btn(self.note_session, 'Save', self.submit_btn)
 
     def launch_window_two(self):
         self.ins3.l.grid(row=0, column=1)
