@@ -4,6 +4,7 @@ from new_session import launch_new_session
 from patient_manager import launch_manager
 from Functions.db_functions import *
 from finance import Finance_Manager
+from calendar import Appointment
 import users
 
 class Main_Menu:
@@ -21,7 +22,7 @@ class Main_Menu:
         self.user_id = id_num
 
         self.start = Btn(self.main_menu, 'Start New Session', launch_new_session)
-        self.appointment = Btn(self.main_menu, 'Appointment Calendar', self.b_test)
+        self.appointment = Btn(self.main_menu, 'Appointment Calendar', self.launch_cal)
         self.finance = Btn(self.main_menu, 'Patient Finance', self.launch_finance)
         self.manage = Btn(self.main_menu, 'Patient Manager', self.launch_manage)
         self.users = Btn(self.main_menu, 'User Admin', None)
@@ -71,6 +72,9 @@ class Main_Menu:
     def logout(self):
         self.main_menu.destroy()
         users.start_program()
+
+    def launch_cal(self):
+        Appointment()
 
 def launch_main_menu(admin, id_num):
 
