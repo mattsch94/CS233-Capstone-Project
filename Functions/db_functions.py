@@ -138,7 +138,8 @@ def time_convert(proper=NONE, db=NONE):  # Converts time from proper convention 
         final = hh + ':' + mm + ':' + ss
         return final
 
-class Time_Stamp:
+class Time_Stamp: # Creates an object that stores date and time it was created. Values accessed via public variables.
+                  # The values are stored in the object in "db-integer" convention.
 
     def __init__(self):
 
@@ -162,7 +163,7 @@ class Time_Stamp:
         else:
             day_s = str(day)
 
-        self.y_m_d = year_s + month_s + day_s
+        self.y_m_d = year_s + month_s + day_s   # Public variable accessed for date.
 
         if hh == 0:
             hour_s = '00'
@@ -185,7 +186,7 @@ class Time_Stamp:
         else:
             sec_s = str(ss)
 
-        self.h_m_s = hour_s + min_s + sec_s
+        self.h_m_s = hour_s + min_s + sec_s   # Public variable accessed for time.
 
-    def reset(self):
+    def reset(self):   # Resets the object. Updates the date and time to when reset is called.
         self.__init__()

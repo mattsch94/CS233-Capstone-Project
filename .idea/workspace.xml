@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3c6e229-2e42-456c-8050-ae9d6bf3b1dc" name="Default" comment="Changes made after class on 3/22. Did not eliminate tk_objects, found a way to utilize. Main menu setup complete. Continue new_session menu.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Functions/db_functions.py" afterPath="$PROJECT_DIR$/Functions/db_functions.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/calendar.py" afterPath="$PROJECT_DIR$/GUI/calendar.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/main_menu.py" afterPath="$PROJECT_DIR$/GUI/main_menu.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/psychprog.db" afterPath="$PROJECT_DIR$/psychprog.db" />
@@ -26,7 +26,7 @@
       <file leaf-file-name="main_menu.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GUI/main_menu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
+            <state relative-caret-position="-525">
               <caret line="24" column="87" lean-forward="false" selection-start-line="24" selection-start-column="87" selection-end-line="24" selection-end-column="87" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -35,23 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="root_file.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GUI/root_file.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="69" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="db_functions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Functions/db_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1050">
-              <caret line="190" column="23" lean-forward="false" selection-start-line="190" selection-start-column="23" selection-end-line="190" selection-end-column="23" />
+            <state relative-caret-position="2850">
+              <caret line="190" column="94" lean-forward="false" selection-start-line="190" selection-start-column="94" selection-end-line="190" selection-end-column="94" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -62,11 +50,21 @@
       <file leaf-file-name="calendar.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/GUI/calendar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="25" column="45" lean-forward="false" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
+            <state relative-caret-position="135">
+              <caret line="126" column="39" lean-forward="false" selection-start-line="126" selection-start-column="39" selection-end-line="126" selection-end-column="39" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="users.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GUI/users.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="28" column="72" lean-forward="false" selection-start-line="28" selection-start-column="72" selection-end-line="28" selection-end-column="72" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -153,11 +151,11 @@
         <option value="$PROJECT_DIR$/GUI/patient_manager.py" />
         <option value="$PROJECT_DIR$/Functions/std_functions.py" />
         <option value="$PROJECT_DIR$/GUI/users.py" />
-        <option value="$PROJECT_DIR$/Functions/db_functions.py" />
         <option value="$PROJECT_DIR$/Functions/tk_objects.py" />
         <option value="$PROJECT_DIR$/GUI/finance.py" />
         <option value="$PROJECT_DIR$/GUI/new_session.py" />
         <option value="$PROJECT_DIR$/GUI/main_menu.py" />
+        <option value="$PROJECT_DIR$/Functions/db_functions.py" />
         <option value="$PROJECT_DIR$/GUI/calendar.py" />
       </list>
     </option>
@@ -515,7 +513,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33286908" sideWeight="0.5024665" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286908" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33147633" sideWeight="0.49753347" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33147633" sideWeight="0.49753347" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286908" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -863,13 +861,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GUI/users.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="28" column="72" lean-forward="false" selection-start-line="28" selection-start-column="72" selection-end-line="28" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Functions/std_functions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -900,12 +891,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Functions/db_functions.py">
+    <entry file="file://$PROJECT_DIR$/GUI/finance.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1050">
-          <caret line="190" column="23" lean-forward="false" selection-start-line="190" selection-start-column="23" selection-end-line="190" selection-end-column="23" />
+        <state relative-caret-position="1200">
+          <caret line="80" column="94" lean-forward="false" selection-start-line="80" selection-start-column="94" selection-end-line="80" selection-end-column="94" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -915,15 +906,23 @@
         <state relative-caret-position="105">
           <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="69" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#0#34#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GUI/finance.py">
+    <entry file="file://$PROJECT_DIR$/GUI/users.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1200">
-          <caret line="80" column="94" lean-forward="false" selection-start-line="80" selection-start-column="94" selection-end-line="80" selection-end-column="94" />
+        <state relative-caret-position="375">
+          <caret line="28" column="72" lean-forward="false" selection-start-line="28" selection-start-column="72" selection-end-line="28" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI/main_menu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-525">
+          <caret line="24" column="87" lean-forward="false" selection-start-line="24" selection-start-column="87" selection-end-line="24" selection-end-column="87" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
@@ -938,20 +937,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GUI/main_menu.py">
+    <entry file="file://$PROJECT_DIR$/Functions/db_functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="24" column="87" lean-forward="false" selection-start-line="24" selection-start-column="87" selection-end-line="24" selection-end-column="87" />
+        <state relative-caret-position="2850">
+          <caret line="190" column="94" lean-forward="false" selection-start-line="190" selection-start-column="94" selection-end-line="190" selection-end-column="94" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GUI/calendar.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="25" column="45" lean-forward="false" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
+        <state relative-caret-position="135">
+          <caret line="126" column="39" lean-forward="false" selection-start-line="126" selection-start-column="39" selection-end-line="126" selection-end-column="39" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>

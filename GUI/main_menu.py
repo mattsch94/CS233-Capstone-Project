@@ -4,7 +4,7 @@ from new_session import launch_new_session
 from patient_manager import launch_manager
 from Functions.db_functions import *
 from finance import Finance_Manager
-from calendar import Appointment
+from calendar import Calendar
 import users
 
 class Main_Menu:
@@ -74,7 +74,7 @@ class Main_Menu:
         users.start_program()
 
     def launch_cal(self):
-        Appointment()
+        Calendar()
 
 def launch_main_menu(admin, id_num):
 
