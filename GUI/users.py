@@ -26,9 +26,13 @@ class Log_In_Window:  # Manages the log-in window that grants access to the rest
 
     def launch(self):
 
-        # The two lines below should be removed upon program completion.
-        self.user_entry.insert('358679')
-        self.password_entry.insert('laptop@10309')
+        # Debug mode is controlled via the root file.
+        if debug_mode:
+            connection = sqlite3.connect(db_address)
+            connection.executescript("pragma key='x41gq'")
+            cursor = connection.execute('SELECT password FROM users WHERE user_id=0;').fetchone()
+            self.user_entry.insert('0')
+            self.password_entry.insert(str(cursor[0]))
 
         self.user_text.l.grid(row=0, column=0, pady=self.pad)
         self.user_entry.t.grid(row=0, column=1, pady=self.pad)
@@ -54,6 +58,7 @@ class Log_In_Window:  # Manages the log-in window that grants access to the rest
             return
 
         connection = sqlite3.connect(db_address)
+        connection.executescript("pragma key='x41gq'")
         users = connection.execute('SELECT user_id FROM users;').fetchall()
 
         for user in users:
@@ -124,9 +129,11 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
     def refresh_list(self):
         self.user_disp.delete_all()
         connection = sqlite3.connect(db_address)
+        connection.executescript("pragma key='x41gq'")
         cursor = connection.execute('SELECT user_id FROM users;').fetchall()
         for user in cursor:
-            self.user_disp.insert(str(user[0]))
+            if user[0] != 0:
+                self.user_disp.insert(str(user[0]))
         connection.close()
         self.new.state(TRUE)
         self.edit.state(TRUE)
@@ -144,6 +151,7 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
             return
 
         connection = sqlite3.connect(db_address)
+        connection.executescript("pragma key='x41gq'")
         sql_cmd_pass = 'SELECT password FROM users WHERE user_id=' + str(user_id) + ';'
         sql_cmd_admin = 'SELECT admin FROM users WHERE user_id=' + str(user_id) + ';'
         cursor_pass = connection.execute(sql_cmd_pass).fetchone()[0]
@@ -172,6 +180,7 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
         confirm_msg = 'Are you sure you want to delete User ID ' + str(user_id) + '?'
         if askyesno('Confirm', confirm_msg):
             connection = sqlite3.connect(db_address)
+            connection.executescript("pragma key='x41gq'")
             sql_cmd = 'DELETE FROM users WHERE user_id=' + str(user_id) + ';'
             connection.execute(sql_cmd)
             connection.commit()
@@ -185,6 +194,7 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
 
 def User_Manager_Std(user):  # Allows non-admin users to change their password.
     connection = sqlite3.connect(db_address)
+    connection.executescript("pragma key='x41gq'")
     sql_cmd = 'SELECT password FROM users WHERE user_id=' + str(user) + ';'
     pw = connection.execute(sql_cmd).fetchone()[0]
 
@@ -295,6 +305,7 @@ class User:  # Manages the editor window used to create/change user information.
         print user_type, self.old_user, exclude
 
         connection = sqlite3.connect(db_address)
+        connection.executescript("pragma key='x41gq'")
 
         # User ID Verification
         cursor = connection.execute('SELECT user_id FROM users;').fetchall()

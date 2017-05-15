@@ -95,6 +95,7 @@ class Calendar:
             return
 
         connection = sqlite3.connect(db_address)
+        connection.executescript("pragma key='x41gq'")
         sql_cmd = ('SELECT p.lname || ", " || p.fname AS name, c.start_time, c.end_time ' +
                    'FROM calendar c ' +
                    'INNER JOIN patients p ' +
@@ -122,6 +123,7 @@ class Calendar:
                 date = str(date_convert(proper=self.active_date))
 
                 connection = sqlite3.connect(db_address)
+                connection.executescript("pragma key='x41gq'")
                 sql_cmd_1 = 'SELECT patient_id FROM patients WHERE fname="' + fname + '" AND lname="' + lname + '";'
                 cursor = connection.execute(sql_cmd_1).fetchone()
                 pat_id = str(cursor[0])
@@ -166,6 +168,7 @@ class Appointment:
         options = ['<Select a Patient>']
 
         connection = sqlite3.connect(db_address)
+        connection.executescript("pragma key='x41gq'")
         sql_cmd = 'SELECT lname || ", " || fname FROM patients ORDER BY lname;'
         cursor = connection.execute(sql_cmd).fetchall()
 
@@ -268,6 +271,7 @@ class Appointment:
 
         # Establish Database Connection
         connection = sqlite3.connect(db_address)
+        connection.executescript("pragma key='x41gq'")
 
         # Collect Entries
         name = str(self.variable.get())
