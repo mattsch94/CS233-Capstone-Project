@@ -59,7 +59,7 @@ class Pat_Manager:  # Parent class, manages the main window.
             id_num = self.master_list.id(full_name)
 
             connection = sqlite3.connect(db_address)
-            connection.executescript("pragma key='x41gq'")
+            connection.executescript(pragma.query)
             sql_cmd = "SELECT * FROM patients WHERE patient_id=" + str(id_num) + ";"
             cursor = connection.execute(sql_cmd).fetchone()
 
@@ -75,7 +75,7 @@ class Pat_Manager:  # Parent class, manages the main window.
             id_num = self.master_list.id(full_name)
 
             connection = sqlite3.connect(db_address)
-            connection.executescript("pragma key='x41gq'")
+            connection.executescript(pragma.query)
             sql_cmd_1 = "SELECT SUM(charge) FROM finance WHERE patient_id=" + str(id_num) + ";"
             table_list = ['calendar', 'finance', 'notes', 'patients']
             cursor = connection.execute(sql_cmd_1).fetchone()
@@ -118,7 +118,7 @@ class Pat_Manager:  # Parent class, manages the main window.
             id_num = self.master_list.id(full_name)
 
             connection = sqlite3.connect(db_address)
-            connection.executescript("pragma key='x41gq'")
+            connection.executescript(pragma.query)
             sql_cmd = 'SELECT date FROM notes WHERE patient_id=' + str(id_num)
             cursor = connection.execute(sql_cmd).fetchall()
 
@@ -204,7 +204,7 @@ class Editor:  # Sub-class, manages editor windows for new and existing patients
 
     def empty_id(self):
         connection = sqlite3.connect(db_address)
-        connection.executescript("pragma key='x41gq'")
+        connection.executescript(pragma.query)
         id_list = connection.execute('SELECT patient_id FROM patients;').fetchall()
         match_id = 1
 
@@ -271,7 +271,7 @@ class Note_Viewer:  # Sub-class responsible for allowing notes to be viewed.
         self.pat_id = patient_id
 
         self.connection = sqlite3.connect(db_address)
-        connection.executescript("pragma key='x41gq'")
+        connection.executescript(pragma.query)
 
         sql_cmd_1 = "SELECT date FROM notes WHERE patient_id=" + str(self.pat_id)
         sql_cmd_2 = "SELECT time FROM notes WHERE patient_id=" + str(self.pat_id)

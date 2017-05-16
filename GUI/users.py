@@ -12,10 +12,13 @@ class Log_In_Window:  # Manages the log-in window that grants access to the rest
         # self.window.geometry('300x150')
         self.user_text = Lbl(self.window, 'User ID:')
         self.password_text = Lbl(self.window, 'Password:')
+        self.decrypt_text = Lbl(self.window, 'Key:')
         self.user_entry = TxtBox(self.window)
         self.password_entry = TxtBox(self.window)
         self.password_entry.password(TRUE)
-        self.login = Btn(self.window, 'Log In', self.verify)
+        self.decrypt_entry = TxtBox(self.window)
+        self.decrypt_entry.password(TRUE)
+        self.login = Btn(self.window, 'Log In', self.decrypt_db)
         self.exit = Btn(self.window, 'Exit', self.close)
 
         self.pad = 5
@@ -26,20 +29,14 @@ class Log_In_Window:  # Manages the log-in window that grants access to the rest
 
     def launch(self):
 
-        # Debug mode is controlled via the root file.
-        if debug_mode:
-            connection = sqlite3.connect(db_address)
-            connection.executescript("pragma key='x41gq'")
-            cursor = connection.execute('SELECT password FROM users WHERE user_id=0;').fetchone()
-            self.user_entry.insert('0')
-            self.password_entry.insert(str(cursor[0]))
-
         self.user_text.l.grid(row=0, column=0, pady=self.pad)
         self.user_entry.t.grid(row=0, column=1, pady=self.pad)
         self.password_text.l.grid(row=1, column=0, pady=self.pad)
         self.password_entry.t.grid(row=1, column=1, pady=self.pad)
-        self.login.b.grid(row=2, column=0, pady=self.pad)
-        self.exit.b.grid(row=2, column=1, pady=self.pad)
+        self.decrypt_text.l.grid(row=2, column=0, pady=self.pad)
+        self.decrypt_entry.t.grid(row=2, column=1, pady=self.pad)
+        self.login.b.grid(row=3, column=0, pady=self.pad)
+        self.exit.b.grid(row=3, column=1, pady=self.pad)
         mainloop()
 
     def login_error(self):
@@ -47,6 +44,27 @@ class Log_In_Window:  # Manages the log-in window that grants access to the rest
 
     def close(self):
         root.destroy()
+
+    def decrypt_db(self):
+
+        connection = sqlite3.connect(db_address)
+
+        if not self.decrypt_entry.get_text():
+            self.login_error()
+            return
+
+        try:
+            key = str(self.decrypt_entry.get_text())
+            connection.executescript("pragma key='" + key + "';")
+            connection.execute('SELECT * FROM patients;')
+        except StandardError:
+            self.login_error()
+            connection.close()
+            return
+
+        pragma.update_key(key)
+        connection.close()
+        self.verify()
 
     def verify(self):
 
@@ -58,7 +76,7 @@ class Log_In_Window:  # Manages the log-in window that grants access to the rest
             return
 
         connection = sqlite3.connect(db_address)
-        connection.executescript("pragma key='x41gq'")
+        connection.executescript(pragma.query)
         users = connection.execute('SELECT user_id FROM users;').fetchall()
 
         for user in users:
@@ -129,7 +147,7 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
     def refresh_list(self):
         self.user_disp.delete_all()
         connection = sqlite3.connect(db_address)
-        connection.executescript("pragma key='x41gq'")
+        connection.executescript(pragma.query)
         cursor = connection.execute('SELECT user_id FROM users;').fetchall()
         for user in cursor:
             if user[0] != 0:
@@ -151,7 +169,7 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
             return
 
         connection = sqlite3.connect(db_address)
-        connection.executescript("pragma key='x41gq'")
+        connection.executescript(pragma.query)
         sql_cmd_pass = 'SELECT password FROM users WHERE user_id=' + str(user_id) + ';'
         sql_cmd_admin = 'SELECT admin FROM users WHERE user_id=' + str(user_id) + ';'
         cursor_pass = connection.execute(sql_cmd_pass).fetchone()[0]
@@ -180,7 +198,7 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
         confirm_msg = 'Are you sure you want to delete User ID ' + str(user_id) + '?'
         if askyesno('Confirm', confirm_msg):
             connection = sqlite3.connect(db_address)
-            connection.executescript("pragma key='x41gq'")
+            connection.executescript(pragma.query)
             sql_cmd = 'DELETE FROM users WHERE user_id=' + str(user_id) + ';'
             connection.execute(sql_cmd)
             connection.commit()
@@ -194,7 +212,7 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
 
 def User_Manager_Std(user):  # Allows non-admin users to change their password.
     connection = sqlite3.connect(db_address)
-    connection.executescript("pragma key='x41gq'")
+    connection.executescript(pragma.query)
     sql_cmd = 'SELECT password FROM users WHERE user_id=' + str(user) + ';'
     pw = connection.execute(sql_cmd).fetchone()[0]
 
@@ -305,7 +323,7 @@ class User:  # Manages the editor window used to create/change user information.
         print user_type, self.old_user, exclude
 
         connection = sqlite3.connect(db_address)
-        connection.executescript("pragma key='x41gq'")
+        connection.executescript(pragma.query)
 
         # User ID Verification
         cursor = connection.execute('SELECT user_id FROM users;').fetchall()
