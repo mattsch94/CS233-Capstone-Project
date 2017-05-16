@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3c6e229-2e42-456c-8050-ae9d6bf3b1dc" name="Default" comment="Changes made after class on 3/22. Did not eliminate tk_objects, found a way to utilize. Main menu setup complete. Continue new_session menu.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/patient_manager.py" afterPath="$PROJECT_DIR$/GUI/patient_manager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI/users.py" afterPath="$PROJECT_DIR$/GUI/users.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/encrypted.db" afterPath="$PROJECT_DIR$/encrypted.db" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,8 +23,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state relative-caret-position="45">
+              <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -79,7 +77,6 @@
         <option value="$PROJECT_DIR$/Functions/db_fxn.py" />
         <option value="$PROJECT_DIR$/Databases/temp_patient.py" />
         <option value="$PROJECT_DIR$/GUI/new_session_2.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/Functions/std_functions.py" />
         <option value="$PROJECT_DIR$/Functions/tk_objects.py" />
         <option value="$PROJECT_DIR$/GUI/main_menu.py" />
@@ -90,6 +87,7 @@
         <option value="$PROJECT_DIR$/GUI/new_session.py" />
         <option value="$PROJECT_DIR$/GUI/patient_manager.py" />
         <option value="$PROJECT_DIR$/GUI/users.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -875,8 +873,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state relative-caret-position="45">
+          <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
           </folding>
