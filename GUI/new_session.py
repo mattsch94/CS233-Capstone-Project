@@ -50,6 +50,7 @@ class New_Session:
             time = Time_Stamp()
 
             connection = sqlite3.connect(db_address)
+            connection.executescript(pragma.query)
             sql_stmt = ('INSERT INTO notes VALUES (' + str(pat_id) + ', "' + str(time.y_m_d) + '", "' + str(time.h_m_s)
                         + '", "' + str(notes) + '");')
             connection.execute(sql_stmt)
@@ -88,6 +89,7 @@ class New_Session:
 
 def launch_new_session():
     connection = sqlite3.connect(db_address)
+    connection.executescript(pragma.query)
     sql_cmd = 'SELECT patient_id FROM patients;'
     cursor = connection.execute(sql_cmd).fetchall()
     if cursor == []:

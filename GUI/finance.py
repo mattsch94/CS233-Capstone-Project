@@ -41,6 +41,7 @@ class Finance_Manager:
 
         cur_no = 0
         connection = sqlite3.connect(db_address)
+        connection.executescript(pragma.query)
 
         while cur_no < max_no:
             sql_cmd = 'SELECT SUM(charge) FROM finance WHERE patient_id=' + str(id_list[cur_no]) +';'
@@ -105,6 +106,7 @@ class Account_Manager:
 
     def update_balance(self):
         connection = sqlite3.connect(db_address)
+        connection.executescript(pragma.query)
         sql_cmd = 'SELECT SUM(charge) FROM finance WHERE patient_id=' + str(self.pat_id) + ';'
         cursor = connection.execute(sql_cmd).fetchone()
 
@@ -121,6 +123,7 @@ class Account_Manager:
         time = Time_Stamp()
 
         connection = sqlite3.connect(db_address)
+        connection.executescript(pragma.query)
         sql_cmd = ('INSERT INTO finance VALUES (' + str(self.pat_id) + ', "' + str(time.y_m_d) + '", "' +
                    str(time.h_m_s) + '", ' + str(amount) + ');')
         connection.execute(sql_cmd)
@@ -197,6 +200,7 @@ class Account:
         report_list = [title, header, undrln]
 
         connection = sqlite3.connect(db_address)
+        connection.executescript(pragma.query)
 
         sql_cmd_charge = 'SELECT charge FROM finance WHERE patient_id=' + str(self.id) + ' ORDER BY date, time;'
         sql_cmd_date = 'SELECT date FROM finance WHERE patient_id=' + str(self.id) + ' ORDER BY date, time;'

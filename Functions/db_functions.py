@@ -1,4 +1,5 @@
-import sqlite3
+# import sqlite3
+from pysqlcipher import dbapi2 as sqlite3
 from GUI.root_file import *
 import operator
 import datetime
@@ -7,6 +8,7 @@ class Patient:  # Datatype used to store patient information.
 
     def __init__(self, id_number):
         self.connection = sqlite3.connect(db_address)
+        self.connection.executescript(pragma.query)
         self.id_num = id_number
         sql_stmt = "SELECT * FROM patients WHERE patient_id=" + str(id_number)
         self.cursor = self.connection.execute(sql_stmt).fetchall()
@@ -63,6 +65,7 @@ class Patient_List:  # Object that holds multiple patients.
     def __init__(self):
 
         connection = sqlite3.connect(db_address)
+        connection.executescript(pragma.query)
         sql_cmd = 'SELECT patient_id FROM patients ORDER BY lname;'
         cursor = connection.execute(sql_cmd).fetchall()
         id_list = []
@@ -92,6 +95,7 @@ class Patient_List:  # Object that holds multiple patients.
 
     def confirm_id(self, identification_no):
         connection = sqlite3.connect(db_address)
+        connection.executescript(pragma.query)
         sql_stmt = "SELECT * FROM patients WHERE patient_id=" + str(identification_no)
         cursor = connection.execute(sql_stmt).fetchall()
         obtain = cursor
@@ -101,6 +105,7 @@ class Patient_List:  # Object that holds multiple patients.
 
 def max_patient_id():  # Determines what the largest patient ID is.
     connection = sqlite3.connect(db_address)
+    connection.executescript(pragma.query)
     sql_stmt = "SELECT MAX(patient_id) FROM patients;"
     cursor = connection.execute(sql_stmt).fetchone()
     obtain = cursor
