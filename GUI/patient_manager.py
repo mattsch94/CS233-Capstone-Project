@@ -271,7 +271,7 @@ class Note_Viewer:  # Sub-class responsible for allowing notes to be viewed.
         self.pat_id = patient_id
 
         self.connection = sqlite3.connect(db_address)
-        connection.executescript(pragma.query)
+        self.connection.executescript(pragma.query)
 
         sql_cmd_1 = "SELECT date FROM notes WHERE patient_id=" + str(self.pat_id)
         sql_cmd_2 = "SELECT time FROM notes WHERE patient_id=" + str(self.pat_id)

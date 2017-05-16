@@ -131,6 +131,7 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
         self.edit = Btn(self.window, 'Edit User', self.edit)
         self.delete = Btn(self.window, 'Delete User', self.delete)
         self.refresh = Btn(self.window, 'Refresh List', self.refresh_list)
+        self.rekey = Btn(self.window, 'Change Key', self.key_update)
         self.close = Btn(self.window, 'Close Window', self.window.destroy)
 
         self.user_disp.l.grid(row=0, column=0, pady=pad)
@@ -138,7 +139,8 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
         self.edit.b.grid(row=2, column=0, pady=pad)
         self.delete.b.grid(row=3, column=0, pady=pad)
         self.refresh.b.grid(row=4, column=0, pady=pad)
-        self.close.b.grid(row=5, column=0, pady=pad)
+        self.rekey.b.grid(row=5, column=0, pady=pad)
+        self.close.b.grid(row=6, column=0, pady=pad)
 
         self.active_id = user_id
 
@@ -156,6 +158,9 @@ class User_Manager_Admin:  # Manages the user-manager accessable by admin users.
         self.new.state(TRUE)
         self.edit.state(TRUE)
         self.delete.state(TRUE)
+
+    def key_update(self):
+        Reset_Key()
 
     def new(self):
         User()
@@ -387,8 +392,8 @@ class User:  # Manages the editor window used to create/change user information.
             if lowerBool and upperBool and specialBool and numberBool:
                 break
 
-        if not lowerBool and not upperBool and not specialBool and not numberBool:
-            error_msg = ('Please use a password that contains at least one of the following:\n' +
+        if not lowerBool or not upperBool or not specialBool or not numberBool:
+            error_msg = ('Please use a password that contains at least one of each of the following:\n' +
                          '-Uppercase Letter\n-Lowercase Letter\n-Number\n' +
                          '-One of these special characters:\n'
                          '   ! @ # $ % ^ & * ?')
@@ -427,3 +432,111 @@ class User:  # Manages the editor window used to create/change user information.
     def close(self):
         if askyesno('Confirm', 'Are you sure you want to cancel?'):
             self.window.destroy()
+
+class Reset_Key:
+
+    def __init__(self):
+
+        self.window = Toplevel(root)
+        self.window.title('Change Key')
+        # self.window.geometry('500x500')
+
+        self.old_text = Lbl(self.window, 'Current Key:')
+        self.new_text = Lbl(self.window, 'New Key:')
+        self.conf_new_text = Lbl(self.window, 'Confirm New Key:')
+
+        self.old_entry = TxtBox(self.window)
+        self.old_entry.password(TRUE)
+        self.new_entry = TxtBox(self.window)
+        self.new_entry.password(TRUE)
+        self.conf_new_entry = TxtBox(self.window)
+        self.conf_new_entry.password(TRUE)
+
+        self.submit = Btn(self.window, 'Submit', self.submit)
+        self.cancel = Btn(self.window, 'Cancel', self.window.destroy)
+
+        self.old_text.l.grid(row=0, column=0)
+        self.old_entry.t.grid(row=0, column=1)
+        self.new_text.l.grid(row=1, column=0)
+        self.new_entry.t.grid(row=1, column=1)
+        self.conf_new_text.l.grid(row=2, column=0)
+        self.conf_new_entry.t.grid(row=2, column=1)
+        self.submit.b.grid(row=3, column=0)
+        self.cancel.b.grid(row=3, column=1)
+
+    def submit(self):
+
+        # Verify no field is blank.
+        if self.old_entry.get_text():
+            old_key = str(self.old_entry.get_text())
+        else:
+            showerror('Error', 'All fields are required.')
+            return
+
+        if self.new_entry.get_text():
+            new_key = str(self.new_entry.get_text())
+        else:
+            showerror('Error', 'All fields are required.')
+            return
+
+        if self.conf_new_entry.get_text():
+            conf_new_key = str(self.conf_new_entry.get_text())
+        else:
+            showerror('Error', 'All fields are required.')
+            return
+
+        # Verify old key is correct.
+        if old_key != pragma.key:
+            showerror('Error', 'Invalid current key.')
+            return
+
+        # Verify new key meets minimum standards.
+        lowerAlphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
+                         'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        upperAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
+                         'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+        specialChar = ['!', '@', '#', '$', '%', '^', '&', '*', '?']
+        numberChar = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+
+        lowerBool = False
+        upperBool = False
+        specialBool = False
+        numberBool = False
+
+        for char in new_key:
+            if char in lowerAlphabet:
+                lowerBool = True
+            if char in upperAlphabet:
+                upperBool = True
+            if char in specialChar:
+                specialBool = True
+            if char in numberChar:
+                numberBool = True
+            if lowerBool and upperBool and specialBool and numberBool:
+                break
+
+        if not lowerBool or not upperBool or not specialBool or not numberBool:
+            error_msg = ('Please use a key that contains at least one of each of the following:\n' +
+                         '-Uppercase Letter\n-Lowercase Letter\n-Number\n' +
+                         '-One of these special characters:\n'
+                         '   ! @ # $ % ^ & * ?')
+            showerror('Error', error_msg)
+            return
+
+        # Check that verify key matches.
+        if new_key != conf_new_key:
+            showerror('Error', 'Verify Key field does not match New Key.')
+            return
+
+        # Rekey the Database
+        connection = sqlite3.connect(db_address)
+        connection.executescript(pragma.query)
+        connection.execute('PRAGMA rekey = "' + new_key + '";')
+        connection.close()
+
+        # Update Program with New Key
+        pragma.update_key(new_key)
+
+        # Alert User and Close
+        showinfo('Success', 'The key has been successfully changed.')
+        self.window.destroy()
