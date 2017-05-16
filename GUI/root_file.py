@@ -18,5 +18,5 @@ root = Tk()
 root.title('Psychologist Database')
 root.withdraw()
 
-db_address = "/Users/matt/GitHub/CS233-Capstone-Project/encrypted.db"
+db_address = "/Users/matt/GitHub/CS233-Capstone-Project/test_save_file.db"
 pragma = Pragma()
